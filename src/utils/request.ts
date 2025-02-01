@@ -1,7 +1,6 @@
 // utils/request.ts
-import axios from "axios";
+import axios, { type AxiosResponse, type AxiosError } from "axios";
 import { useAuthStore } from "@/store/auth";
-import type { Api } from "@/types/api";
 import { message } from "ant-design-vue";
 
 // 创建可扩展的axios实例
@@ -41,7 +40,7 @@ const createService = () => {
 
 // 统一处理响应
 const handleResponse = (response: AxiosResponse) => {
-  const res = response.data as Api.BaseResponse;
+  const res = response.data as Api.Common.Response;
 
   // 业务逻辑错误处理
   if (res.code !== 200) {
