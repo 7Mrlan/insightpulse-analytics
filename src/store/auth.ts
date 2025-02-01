@@ -1,11 +1,10 @@
 // src/store/auth.ts
 import { defineStore } from "pinia";
-import type { Api } from "@/types/api";
 import * as api from '@/apis'  // 正确导入API模块
 
 interface AuthState {
   token: string | null;
-  permissions: Api.Permission[];
+  permissions: Api.Auth.Permission[];
 }
 
 export const useAuthStore = defineStore("auth", {

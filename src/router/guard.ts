@@ -1,6 +1,5 @@
 // router/guard.ts
 import type { Router } from "vue-router";
-import type { Api } from "@/types/api"; // 引入类型
 import { useAuthStore } from "@/store/auth";
 import { checkPermission } from "@/utils/auth";
 
@@ -34,7 +33,7 @@ export function setupRouterGuard(router: Router) {
         console.warn("权限检查失败，authStore 未初始化");
         return false;
       }
-      if (!checkPermission(to.meta.permission as Api.Permission)) {
+      if (!checkPermission(to.meta.permission as Api.Auth.Permission)) {
         return { name: "403" };
       }
     }

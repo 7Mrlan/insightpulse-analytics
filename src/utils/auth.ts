@@ -1,7 +1,6 @@
-import type { Api } from "@/types/api";
 import { useAuthStore } from "@/store/auth";
 
-export function checkPermission(permission: Api.Permission): boolean {
+export function checkPermission(permission: Api.Auth.Permission): boolean {
   const authStore = useAuthStore();
   return authStore.permissions.includes(permission);
 }
