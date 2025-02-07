@@ -10,13 +10,13 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: () => import("@/views/login/index.vue"),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: false, title: "用户登录" },
     },
     {
       path: "/403",
       name: "403",
       component: () => import("@/views/403.vue"),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: false, title: "403" },
     },
     ...dynamicRoutes,
     { path: "/:pathMatch(.*)*", redirect: "/dashboard" },

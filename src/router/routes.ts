@@ -16,6 +16,7 @@ export const dynamicRoutes: RouteRecordRaw[] = [
           requiresAuth: true,
           permission: "dashboard:view",
           title: "舆情概览",
+          preloadPriority: 1, // 新增预加载优先级标识
         },
       },
     ],

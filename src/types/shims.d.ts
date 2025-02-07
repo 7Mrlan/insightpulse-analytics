@@ -9,8 +9,5 @@ declare module "*.vue" {
 declare namespace Api {
   export import Common = Api.Common;
   export import Auth = Api.Auth;
-}
-
-declare module "@/*" {
-  // 保持空声明即可，用于通过类型检查
+  export import Preload = Api.Preload;
 }
