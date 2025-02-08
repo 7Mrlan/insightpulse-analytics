@@ -50,6 +50,8 @@ jobs:
           # 新建 docs 子目录，并复制文档构建输出
           mkdir -p deploy/docs
           cp -r docs/.vitepress/dist/* deploy/docs/
+          # 添加 .nojekyll 文件
+          touch deploy/.nojekyll
           # 临时调试：列出 deploy 目录结构
           echo "Deployment directory structure:"
           ls -R deploy
@@ -61,3 +63,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: deploy
           publish_branch: gh-pages
+          jekyll: false
