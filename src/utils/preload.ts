@@ -77,7 +77,7 @@ class PreloadManager {
   }
 
   /**
-   * 智能预加载
+   * 智能预加载，整个预加载流程的入口
    * @param routes 需要预加载的路由
    * @param options 预加载选项
    */
@@ -107,9 +107,7 @@ class PreloadManager {
 
     for (const chunk of chunks) {
       try {
-        await Promise.all(
-          chunk.map((route) => this.preloadChunk([route], options))
-        );
+        await this.preloadChunk(chunk, options);
       } catch (error) {
         console.error(`[预加载] 批次预加载失败`, error);
       }

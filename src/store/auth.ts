@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import * as api from "@/apis"; // 正确导入API模块
 import { smartPreload } from "@/utils/preload";
 import { CORE_ROUTES } from "@/config/preload";
+import { addDynamicRoutes } from "@/router/dynamic";
 
 interface AuthState {
   token: string | null;
@@ -21,6 +22,7 @@ export const useAuthStore = defineStore("auth", {
     async login(credentials: { username: string; password: string }) {
       try {
         const { data } = await api.login(credentials);
+        addDynamicRoutes();
         await smartPreload(CORE_ROUTES, {
           concurrentLoads: 2,
           memoryThreshold: 150_000_000,
