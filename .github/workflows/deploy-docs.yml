@@ -6,6 +6,10 @@ on:
       - develop  # 监听 develop 分支的 push 事件
   workflow_dispatch:  # 手动触发
 
+# 确保赋予写入权限
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -31,7 +35,8 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          node-version: 18  # 确保使用 Node.js 18 或更高
+          # 如果仍然遇到权限问题，考虑将下行替换为使用 PAT:
+          # github_token: ${{ secrets.ACCESS_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/.vitepress/dist
-          publish_branch: gh-pages  # 确保 GitHub Pages 设置 gh-pages 作为发布分支
+          publish_branch: gh-pages
