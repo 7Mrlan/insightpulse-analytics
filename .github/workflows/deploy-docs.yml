@@ -1,4 +1,4 @@
-name: Deploy VitePress to GitHub Pages
+name: Deploy Frontend and VitePress Docs to GitHub Pages
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
       - develop  # 监听 develop 分支的 push 事件
   workflow_dispatch:  # 手动触发
 
-# 确保赋予写入权限
 permissions:
   contents: write
 
@@ -15,28 +14,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. 检出仓库代码
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2. 设置 Node.js 环境
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # 3. 设置环境变量
       - name: Set environment variables
         run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
+      # 4. 安装依赖
       - name: Install dependencies
         run: npm install
 
+      # 5. 构建前端项目（构建输出在根目录下的 dist 文件夹）
+      - name: Build frontend project
+        run: npm run build
+
+      # 6. 构建 VitePress 文档（构建输出在 docs/.vitepress/dist 文件夹）
       - name: Build VitePress site
         run: npm run docs:build
 
+      # 7. 准备部署目录，将两个构建输出合并到一起
+      - name: Prepare deployment directory
+        run: |
+          # 清除之前可能存在的 deploy 目录
+          rm -rf deploy
+          mkdir deploy
+          # 复制前端构建输出（假设输出在根目录下的 dist 文件夹）
+          cp -r dist/* deploy/
+          # 将 VitePress 文档构建输出复制到 deploy 下的 docs 子目录中
+          mkdir -p deploy/docs
+          cp -r docs/.vitepress/dist/* deploy/docs/
+
+      # 8. 将合并后的 deploy 目录推送到 gh-pages 分支
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # 如果仍然遇到权限问题，考虑将下行替换为使用 PAT:
-          # github_token: ${{ secrets.ACCESS_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/.vitepress/dist
+          publish_dir: deploy   # 部署合并后的目录
           publish_branch: gh-pages
