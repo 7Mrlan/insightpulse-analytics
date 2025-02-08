@@ -1,0 +1,1 @@
+import{_ as i,c as a,ae as n,o as h}from"./chunks/framework.ptBMh4I2.js";const g=JSON.parse('{"title":"企业级路由管理文档","description":"","frontmatter":{},"headers":[],"relativePath":"routing.md","filePath":"routing.md"}'),t={name:"routing.md"};function l(k,s,p,e,r,E){return h(),a("div",null,s[0]||(s[0]=[n("",68)]))}const o=i(t,[["render",l]]);export{g as __pageData,o as default};
