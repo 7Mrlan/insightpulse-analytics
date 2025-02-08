@@ -1,0 +1,1 @@
+import{d as n,V as a,$ as s,a3 as t,k as r}from"./vue-vendor-C8d0slEj.js";import{f as _}from"./ant-design-vue-C-raaEEC.js";const p={class:"dashboard"},l=n({name:"Dashboard",__name:"index",setup(c){return(d,e)=>{const o=_;return a(),s("div",p,[e[0]||(e[0]=t("h1",null,"舆情数据概览",-1)),r(o,{description:"数据加载中..."})])}}});export{l as default};
