@@ -6,6 +6,7 @@ import { AntDesignVueResolver } from "unplugin-vue-components/resolvers";
 import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
+  base: "/insightpulse-analytics/", // 👈 这里修改为你的 GitHub Pages 子路径
   server: {
     hmr: {
       timeout: 5000,
