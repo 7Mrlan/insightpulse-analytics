@@ -3,21 +3,20 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import Components from "unplugin-vue-components/vite";
 import { AntDesignVueResolver } from "unplugin-vue-components/resolvers";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
   server: {
-    // Add timeout configuration
     hmr: {
-      timeout: 5000
+      timeout: 5000,
     },
-    // Add proxy configuration
     proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
+      "/api": {
+        target: "http://localhost:3000",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   resolve: {
     alias: {
@@ -30,30 +29,66 @@ export default defineConfig({
       resolvers: [
         AntDesignVueResolver({
           importStyle: "less",
+          resolveIcons: true, // 图标按需加载
         }),
       ],
     }),
+    visualizer({
+      open: true,
+      filename: "bundle-analysis.html",
+      gzipSize: true,
+      brotliSize: true,
+    }),
   ],
-  // Add CSS configuration
   css: {
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,
         modifyVars: {
-          'primary-color': '#2F54EB',
-        }
-      }
-    }
+          "primary-color": "#2F54EB",
+          "border-radius-base": "4px",
+        },
+        additionalData: `@import "${path.resolve(
+          __dirname,
+          "src/styles/variables.less"
+        )}";`,
+      },
+    },
   },
-  // Add to vite.config.ts
   build: {
+    chunkSizeWarningLimit: 1500, // 临时提高警告限制
     rollupOptions: {
       output: {
-        manualChunks: {
-          'ant-design-vue': ['ant-design-vue'],
-          'vue-vendor': ['vue', 'vue-router', 'pinia']
-        }
-      }
-    }
-  }
+        manualChunks(id: string) {
+          // 精细化vendor拆分
+          if (id.includes("node_modules")) {
+            if (id.includes("ant-design-vue")) {
+              return "vendor_antd";
+            }
+            if (id.includes("echarts")) {
+              return "vendor_echarts";
+            }
+            if (id.includes("lodash")) {
+              return "vendor_lodash";
+            }
+            if (id.includes("vue")) {
+              return "vendor_vue";
+            }
+            if (id.includes("date-fns")) {
+              return "vendor_datefns";
+            }
+            return "vendor_others";
+          }
+
+          // 业务代码分割（可选）
+          if (id.includes("src/views")) {
+            const name = id.split("views/")[1].split("/")[0];
+            if (name) return `views_${name}`;
+          }
+        },
+      },
+    },
+    cssCodeSplit: true, // CSS代码分割
+    reportCompressedSize: false, // 禁用gzip大小报告（可选）
+  },
 });
