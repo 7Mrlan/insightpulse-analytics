@@ -1,0 +1,1 @@
+import{_ as a,c as t,ae as n,o as r}from"./chunks/framework.CaWUTol2.js";const m=JSON.parse('{"title":"企业级项目文档","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),o={name:"index.md"};function i(s,e,d,l,p,c){return r(),t("div",null,e[0]||(e[0]=[n("",7)]))}const u=a(o,[["render",i]]);export{m as __pageData,u as default};
