@@ -7,7 +7,12 @@ import { logError } from "@/utils/logger";
 /**
  * 校验权限函数
  */
-function hasPermission(requiredPermission: string | string[]): boolean {
+/**
+ * 校验权限函数
+ */
+function hasPermission(
+  requiredPermission: Api.Auth.Permission | Api.Auth.Permission[]
+): boolean {
   const authStore = useAuthStore();
   if (!authStore.permissions) return false; // 确保权限数据已加载
   return Array.isArray(requiredPermission)
@@ -40,7 +45,10 @@ export function setupRouterGuard(router: Router) {
     }
 
     // **检查权限**
-    if (permission && !hasPermission(permission as string | string[])) {
+    if (
+      permission &&
+      !hasPermission(permission as Api.Auth.Permission | Api.Auth.Permission[])
+    ) {
       return { name: "403" };
     }
 

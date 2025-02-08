@@ -22,7 +22,7 @@ const router = createRouter({
       component: () => import("@/views/403.vue"),
       meta: { requiresAuth: false, title: "403" },
     },
-    { path: "/:pathMatch(.*)*", redirect: "/dashboard" },
+    { path: "/:pathMatch(.*)*", redirect: "/login" },
   ],
 });
 
