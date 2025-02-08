@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   // 加载当前 mode 下的环境变量
   const env = loadEnv(mode, process.cwd(), "");
   return {
-    base: env.VITE_BASE_URL, // 基于环境变量设置 base
+    base: env.VITE_BASE_URL, // 开发时 "/"，生产时 "/insightpulse-analytics/"
     server: {
       hmr: { timeout: 5000 },
       proxy: {
