@@ -1,6 +1,6 @@
 // docs/.vitepress/config.js
  export default {
-   base: "/insightpulse-analytics/", // 添加这一行，仓库名作为 base
+   base: "/insightpulse-analytics/docs/",// 添加这一行，仓库名作为 base
    title: "企业级项目文档",
    description: "前端项目文档，包含路由、状态管理、API 等",
    themeConfig: {
