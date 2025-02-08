@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop  # 监听 develop 分支的 push 事件
-  workflow_dispatch: # 允许手动触发部署
+      workflow_dispatch:  # 手动触发
 
 jobs:
   deploy:
@@ -12,12 +12,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 16
 
       - name: Install dependencies
         run: npm install
@@ -26,10 +26,8 @@ jobs:
         run: npm run docs:build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/.vitepress/dist  # VitePress 生成的静态文件目录
-          keep_files: false  # 是否保留历史文件，false 会清除旧版本
-          commit_message: "Deploy VitePress documentation"
-
+          publish_dir: docs/.vitepress/dist
+          publish_branch: gh-pages  # 确保 GitHub Pages 设置 gh-pages 作为发布分支
