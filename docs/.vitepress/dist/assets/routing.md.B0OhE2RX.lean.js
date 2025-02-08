@@ -1,0 +1,1 @@
+import{_ as i,c as a,o as n,ae as h}from"./chunks/framework.DSNFEceo.js";const g=JSON.parse('{"title":"企业级路由管理文档","description":"","frontmatter":{},"headers":[],"relativePath":"routing.md","filePath":"routing.md"}'),t={name:"routing.md"};function l(k,s,p,e,r,E){return n(),a("div",null,s[0]||(s[0]=[h("",68)]))}const o=i(t,[["render",l]]);export{g as __pageData,o as default};

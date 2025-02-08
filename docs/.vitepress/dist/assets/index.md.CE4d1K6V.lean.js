@@ -1,0 +1,1 @@
+import{_ as a,c as t,o as n,ae as i}from"./chunks/framework.DSNFEceo.js";const m=JSON.parse('{"title":"企业级项目文档","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),s={name:"index.md"};function r(l,e,p,o,d,c){return n(),t("div",null,e[0]||(e[0]=[i("",7)]))}const u=a(s,[["render",r]]);export{m as __pageData,u as default};
