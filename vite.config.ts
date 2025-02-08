@@ -44,5 +44,16 @@ export default defineConfig({
         }
       }
     }
+  },
+  // Add to vite.config.ts
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'ant-design-vue': ['ant-design-vue'],
+          'vue-vendor': ['vue', 'vue-router', 'pinia']
+        }
+      }
+    }
   }
 });

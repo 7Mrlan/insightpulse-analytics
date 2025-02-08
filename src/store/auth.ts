@@ -1,11 +1,13 @@
 // src/store/auth.ts
 import { defineStore } from "pinia";
-import type { Api } from "@/types/api";
-import * as api from '@/apis'  // 正确导入API模块
+import * as api from "@/apis"; // 正确导入API模块
+import { smartPreload } from "@/utils/preload";
+import { CORE_ROUTES } from "@/config/preload";
+import { addDynamicRoutes } from "@/router/dynamic";
 
 interface AuthState {
   token: string | null;
-  permissions: Api.Permission[];
+  permissions: Api.Auth.Permission[];
 }
 
 export const useAuthStore = defineStore("auth", {
@@ -20,11 +22,16 @@ export const useAuthStore = defineStore("auth", {
     async login(credentials: { username: string; password: string }) {
       try {
         const { data } = await api.login(credentials);
+        addDynamicRoutes();
+        await smartPreload(CORE_ROUTES, {
+          concurrentLoads: 2,
+          memoryThreshold: 150_000_000,
+        }); // 新增预加载核心路由
         this.token = data.token;
         this.permissions = data.permissions;
         localStorage.setItem("token", data.token);
       } catch (error) {
-        console.error('Login failed:', error);
+        console.error("Login failed:", error);
         throw error;
       }
     },

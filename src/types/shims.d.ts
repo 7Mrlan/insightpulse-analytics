@@ -5,6 +5,9 @@ declare module "*.vue" {
   export default component;
 }
 
-declare module "@/*" {
-  // 解决路径别名类型识别
+// 合并所有API类型
+declare namespace Api {
+  export import Common = Api.Common;
+  export import Auth = Api.Auth;
+  export import Preload = Api.Preload;
 }

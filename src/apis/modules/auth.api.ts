@@ -1,10 +1,10 @@
 // src/apis/auth.ts
 import request from "@/utils/request";
-import type { Api } from "@/types/api";
+
 import { http, HttpResponse } from 'msw'
 
 export const login = (data: { username: string; password: string }) => {
-  return request.post<Api.LoginRes>("/api/login", data);
+  return request.post<Api.Auth.LoginRes>("/api/login", data);
 };
 
 export const handlers = [

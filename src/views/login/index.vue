@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
 
 const formState = reactive({
@@ -26,12 +26,13 @@ const formState = reactive({
 
 const authStore = useAuthStore()
 
+const loading = ref(false);
 const handleLogin = async () => {
+  loading.value = true;
   try {
-    await authStore.login(formState)
-    window.location.href = '/'
-  } catch (err) {
-    console.error('登录失败', err)
+    await authStore.login(formState);
+  } finally {
+    loading.value = false;
   }
-}
+};
 </script>
