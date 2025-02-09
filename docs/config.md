@@ -293,7 +293,133 @@ export default defineConfig(({ mode }) => {
 
 ---
 
-## 4. 总结
+# ESLint 与 Prettier 配置文档
+
+本节详细介绍项目中的 ESLint 和 Prettier 配置文件，包括它们的用途、主要配置项以及注意事项。
+
+---
+
+## 4. `.eslintrc.js`
+
+### 文件路径
+- 位于项目根目录。
+
+### 文件用途
+- 用于配置 ESLint 的规则、环境、插件和扩展规则，确保代码风格统一并捕获潜在错误。
+
+### 配置内容示例
+
+```js
+// .eslintrc.js
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+    browser: true,
+  },
+  // 继承 Vue 和 TypeScript 的标准规则，同时整合 Prettier
+  extends: [
+    "plugin:vue/vue3-recommended",
+    "@vue/standard",
+    "@vue/typescript/recommended",
+    "plugin:prettier/recommended" // 确保 Prettier 放在最后
+  ],
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
+  rules: {
+    // 根据项目需要自定义规则
+    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "vue/multi-word-component-names": "off"
+  },
+  overrides: [
+    {
+      files: ["*.vue"],
+      rules: {
+        // 针对 Vue 单文件组件的特定规则配置
+      }
+    }
+  ],
+};
+```
+
+### 关键说明
+- **使用 `module.exports` 导出配置：**  
+  由于 ESLint 配置文件由 Node.js 加载，所以需要使用 CommonJS 语法（即 `module.exports`）将配置对象导出。这样 ESLint 能通过 `require('.eslintrc.js')` 正确读取配置。
+
+- **环境配置 (`env`)：**  
+  指定了代码运行的环境为浏览器和 Node.js，有助于 ESLint 正确识别全局变量。
+
+- **继承扩展 (`extends`)：**  
+  继承了 Vue3 推荐的规则、标准规则以及针对 TypeScript 的推荐规则，同时集成了 Prettier 插件以关闭可能冲突的 ESLint 规则。
+
+- **自定义规则 (`rules`)：**  
+  根据项目需要禁用或调整某些规则，比如生产环境下禁止 `console` 和 `debugger` 的使用。
+
+---
+
+## 5. `.prettierrc`
+
+### 文件路径
+- 位于项目根目录。
+
+### 文件用途
+- 配置 Prettier 的代码格式化规则，确保所有代码按照统一的风格格式化，提升代码可读性和维护性。
+
+### 配置内容示例
+
+```json
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "semi": true,
+  "bracketSpacing": true,
+  "arrowParens": "avoid"
+}
+```
+
+### 关键说明
+- **printWidth**：设置每行最大字符数，超出部分将进行换行，推荐值 100。
+- **tabWidth**：每个缩进级别使用 2 个空格。
+- **singleQuote**：使用单引号代替双引号，保持一致的字符串书写风格。
+- **trailingComma**：在 ES5 支持的语法中使用尾随逗号，有助于版本控制时减少差异。
+- **semi**：在语句末尾添加分号。
+- **bracketSpacing**：在对象字面量的大括号内添加空格。
+- **arrowParens**：在箭头函数参数只有一个时不使用圆括号，提高代码简洁性。
+
+### 附加说明
+- 可在项目根目录创建 `.prettierignore` 文件，忽略不需要格式化的文件或目录，如：
+  ```
+  node_modules
+  dist
+  *.min.js
+  ```
+
+---
+
+## 6. 脚本命令配置
+
+在 `package.json` 中增加以下脚本命令，以便在项目中运行 ESLint 与 Prettier：
+
+```json
+"scripts": {
+  "lint": "eslint --ext .ts,.tsx,.vue src",
+  "lint:fix": "eslint --ext .ts,.tsx,.vue src --fix",
+  "format": "prettier --write \"src/**/*.{ts,tsx,vue,js,jsx,json,css,scss,less}\""
+}
+```
+
+### 说明
+- **lint**：检查 `src` 目录下所有 `.ts`、`.tsx` 和 `.vue` 文件中的潜在代码问题。
+- **lint:fix**：在检查的同时自动修复能自动修复的问题。
+- **format**：对项目中所有相关类型的文件执行 Prettier 格式化操作，确保代码风格一致。
+
+---
+
+## 7. 总结
 
 本配置文档详细介绍了三个关键配置文件的作用和主要配置项，帮助开发者了解：
 
