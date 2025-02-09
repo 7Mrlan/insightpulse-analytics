@@ -1,0 +1,1 @@
+import{_ as i,c as a,ae as n,o as t}from"./chunks/framework.ptBMh4I2.js";const d=JSON.parse('{"title":"前端配置文档","description":"","frontmatter":{},"headers":[],"relativePath":"config.md","filePath":"config.md"}'),l={name:"config.md"};function h(p,s,k,e,E,r){return t(),a("div",null,s[0]||(s[0]=[n("",68)]))}const g=i(l,[["render",h]]);export{d as __pageData,g as default};

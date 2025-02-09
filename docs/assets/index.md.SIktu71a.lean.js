@@ -1,0 +1,1 @@
+import{_ as e,c as t,ae as i,o as n}from"./chunks/framework.ptBMh4I2.js";const h=JSON.parse('{"title":"企业级项目文档","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),s={name:"index.md"};function l(r,a,o,p,c,d){return n(),t("div",null,a[0]||(a[0]=[i("",7)]))}const m=e(s,[["render",l]]);export{h as __pageData,m as default};
