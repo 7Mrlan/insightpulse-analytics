@@ -4,25 +4,25 @@
 
 // 动态路由将在用户登录后根据权限动态添加
 
-import { createRouter, createWebHistory } from "vue-router";
-import { setupRouterGuard } from "./guard";
+import { createRouter, createWebHistory } from 'vue-router';
+import { setupRouterGuard } from './guard';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/login",
-      name: "Login",
-      component: () => import("@/views/login/index.vue"),
-      meta: { requiresAuth: false, title: "用户登录" },
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/login/index.vue'),
+      meta: { requiresAuth: false, title: '用户登录' },
     },
     {
-      path: "/403",
-      name: "403",
-      component: () => import("@/views/403.vue"),
-      meta: { requiresAuth: false, title: "403" },
+      path: '/403',
+      name: '403',
+      component: () => import('@/views/403.vue'),
+      meta: { requiresAuth: false, title: '403' },
     },
-    { path: "/:pathMatch(.*)*", redirect: "/login" },
+    { path: '/:pathMatch(.*)*', redirect: '/login' },
   ],
 });
 

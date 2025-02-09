@@ -16,6 +16,6 @@ export class PerformanceMonitor {
     const connection = navigator.connection;
     if (!connection) return true;
 
-    return connection.effectiveType !== "slow-2g" && !connection.saveData;
+    return connection.effectiveType !== 'slow-2g' && !connection.saveData;
   }
 }

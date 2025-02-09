@@ -6,6 +6,7 @@ export default {
   themeConfig: {
     nav: [
       { text: "首页", link: "/" },
+      { text: "配置文档", link: "/config" },
       { text: "路由", link: "/routing" },
       { text: "状态管理", link: "/state-management" },
       { text: "API 文档", link: "/api" },
@@ -14,7 +15,8 @@ export default {
       {
         text: "基础文档",
         items: [
-          { text: "企业级路由文档", link: "/routing" },
+          { text: "配置文档", link: "/config" },
+          { text: "路由文档", link: "/routing" },
           { text: "状态管理", link: "/state-management" },
           { text: "API 文档", link: "/api" },
         ],

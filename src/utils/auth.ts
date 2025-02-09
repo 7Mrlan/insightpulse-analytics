@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from '@/store/auth';
 
 export function checkPermission(permission: Api.Auth.Permission): boolean {
   const authStore = useAuthStore();

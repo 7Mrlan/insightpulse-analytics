@@ -24,7 +24,7 @@ export function generateSignature(config: SignatureConfig): string {
     const payload = {
       timestamp,
       path: config.path || config.url,
-      data: config.data || {}
+      data: config.data || {},
     };
 
     return md5(`${timestamp}${secret}${JSON.stringify(payload)}`);

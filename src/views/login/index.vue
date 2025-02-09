@@ -16,15 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { useAuthStore } from '@/store/auth'
+import { reactive, ref } from 'vue';
+import { useAuthStore } from '@/store/auth';
 
 const formState = reactive({
   username: '',
-  password: ''
-})
+  password: '',
+});
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 const loading = ref(false);
 const handleLogin = async () => {

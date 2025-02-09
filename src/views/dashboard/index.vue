@@ -9,5 +9,5 @@
 <script setup lang="ts">
 defineOptions({
   name: 'Dashboard', // This name matches cachedRoutes for caching
-})
+});
 </script>

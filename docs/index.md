@@ -2,7 +2,8 @@
 
 欢迎阅读本项目文档。本项目文档包含以下内容：
 
-- [企业级路由文档](/routing)
+- [配置文档](/config)
+- [路由文档](/routing)
 - [状态管理文档](/state-management)
 - [API 文档](/api)
 

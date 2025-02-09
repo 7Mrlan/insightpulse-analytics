@@ -1,6 +1,6 @@
 declare namespace Api.Preload {
   type NetworkType = 'slow-2g' | '2g' | '3g' | '4g';
-  
+
   interface PreloadConfig {
     priority: number;
     timeout?: number;

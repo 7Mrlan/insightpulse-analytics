@@ -1,5 +1,6 @@
 <!-- App.vue -->
-<<template>
+<
+<template>
   <div id="app">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedRoutes">
@@ -10,13 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 // Routes that should be cached
 const cachedRoutes = ref([
   'Dashboard',
   // Add other route names that need caching
-])
+]);
 </script>
 
 <style>

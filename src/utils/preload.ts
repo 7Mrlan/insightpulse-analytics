@@ -1,6 +1,6 @@
-import router from "@/router";
-import { PRELOAD_CONFIG, CORE_ROUTES } from "@/config/preload";
-import { PerformanceMonitor } from "./performance";
+import router from '@/router';
+import { PRELOAD_CONFIG, CORE_ROUTES } from '@/config/preload';
+import { PerformanceMonitor } from './performance';
 
 // 直接使用 `CORE_ROUTES`，避免 TS 报错
 type RouteName = (typeof CORE_ROUTES)[number];
@@ -18,20 +18,15 @@ class PreloadManager {
    * @param name 路由名称
    * @param timeout 超时时间
    */
-  private async preloadRoute(
-    name: RouteName,
-    timeout: number
-  ): Promise<Api.Preload.PreloadResult> {
+  private async preloadRoute(name: RouteName, timeout: number): Promise<Api.Preload.PreloadResult> {
     const startTime = performance.now();
 
     try {
       const route = router.resolve({ name });
-      const components = route.matched.flatMap((record) =>
+      const components = route.matched.flatMap(record =>
         Object.values(record.components ?? {})
-          .filter(
-            (comp): comp is () => Promise<any> => typeof comp === "function"
-          )
-          .map((comp) => comp())
+          .filter((comp): comp is () => Promise<any> => typeof comp === 'function')
+          .map(comp => comp())
       );
 
       await Promise.race([
@@ -45,7 +40,7 @@ class PreloadManager {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error : new Error("Unknown error"),
+        error: error instanceof Error ? error : new Error('Unknown error'),
         duration: performance.now() - startTime,
       };
     }
@@ -61,15 +56,13 @@ class PreloadManager {
     options: Api.Preload.PreloadOptions
   ): Promise<void> {
     if (!this.monitor.checkMemory()) {
-      console.warn("[预加载] 内存不足，跳过当前批次");
+      console.warn('[预加载] 内存不足，跳过当前批次');
       return;
     }
 
     try {
       await Promise.all(
-        routes.map((route) =>
-          this.preloadRoute(route, options.timeout ?? this.config.TIMEOUT)
-        )
+        routes.map(route => this.preloadRoute(route, options.timeout ?? this.config.TIMEOUT))
       );
     } catch (error) {
       console.error(`[预加载] 预加载失败`, error);
@@ -81,21 +74,17 @@ class PreloadManager {
    * @param routes 需要预加载的路由
    * @param options 预加载选项
    */
-  async smartPreload(
-    routes: RouteName[],
-    options: Api.Preload.PreloadOptions = {}
-  ): Promise<void> {
+  async smartPreload(routes: RouteName[], options: Api.Preload.PreloadOptions = {}): Promise<void> {
     if (!this.monitor.checkNetwork()) {
-      console.log("[预加载] 网络状况不佳，跳过预加载");
+      console.log('[预加载] 网络状况不佳，跳过预加载');
       return;
     }
 
     const sortedRoutes = routes
-      .filter((route) => this.config.routePreloadConfig[route])
+      .filter(route => this.config.routePreloadConfig[route])
       .sort(
         (a, b) =>
-          this.config.routePreloadConfig[a].priority -
-          this.config.routePreloadConfig[b].priority
+          this.config.routePreloadConfig[a].priority - this.config.routePreloadConfig[b].priority
       );
 
     const chunks: RouteName[][] = [];
