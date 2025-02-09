@@ -1,23 +1,8 @@
 // 主题变量覆盖
-@primary-color: #2F54EB; // 品牌主色
-@error-color: #F5222D;   // 错误色
-@warning-color: #FAAD14; // 警告色
-@success-color: #52C41A; // 成功色
-@font-size-base: 14px;   // 主字号
+@primary-color: #2f54eb; // 品牌主色
+@error-color: #f5222d; // 错误色
+@warning-color: #faad14; // 警告色
+@success-color: #52c41a; // 成功色
+@font-size-base: 14px; // 主字号
 @text-color: rgba(0, 0, 0, 0.85);
 @border-color-base: #d9d9d9;
-
-// vite.config.ts
-export default defineConfig({
-  css: {
-    preprocessorOptions: {
-      less: {
-        modifyVars: {
-          'primary-color': '@primary-color',
-          'border-radius-base': '4px',
-        },
-        javascriptEnabled: true,
-      },
-    },
-  },
-})
