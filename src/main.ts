@@ -6,6 +6,7 @@ import router from './router';
 import Antd from 'ant-design-vue';
 import App from './App.vue';
 import 'ant-design-vue/dist/reset.css';
+import { useAuthStore } from '@/store/auth';
 
 // 初始化应用
 const app = createApp(App);
@@ -18,6 +19,10 @@ pinia.use(persistedState);
 app.use(pinia);
 app.use(router);
 app.use(Antd);
+
+// 用户刷新页面时，从 localStorage 恢复认证状态
+const authStore = useAuthStore();
+authStore.initAuth();
 
 // 挂载到DOM
 app.mount('#app');
