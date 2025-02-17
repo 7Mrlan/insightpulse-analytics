@@ -1,4 +1,7 @@
 // src/utils/keyManager.ts
+import { handleError } from './logger'; // 引入统一错误处理
+import { fetchKey } from '@/apis/modules/key.api'; // 引入 API 模块
+
 class KeyManager {
   private static KEY_REFRESH_INTERVAL = 3600_000; // 1小时轮换
   private static cache: Record<string, { key: CryptoKey; version: string; timestamp: number }> = {};
@@ -10,7 +13,6 @@ class KeyManager {
     type: 'encryption' | 'signature',
     version: string = 'v1'
   ): Promise<CryptoKey> {
-    // 如果缓存的密钥有效并且版本一致，直接返回缓存
     if (
       this.cache[type]?.version === version &&
       Date.now() - this.cache[type].timestamp < this.KEY_REFRESH_INTERVAL
@@ -18,7 +20,6 @@ class KeyManager {
       return this.cache[type].key;
     }
 
-    // 密钥缓存机制
     if (this.refreshing) {
       return new Promise<CryptoKey>(resolve => {
         this.pendingRequests.push(() => resolve(this.getKey(type, version)));
@@ -27,9 +28,9 @@ class KeyManager {
 
     this.refreshing = true;
     try {
-      const key = await this.fetchKey(type, version); // 获取密钥
+      const key = await this.fetchKey(type, version);
       this.cache[type] = { key, timestamp: Date.now(), version };
-      this.pendingRequests.forEach(callback => callback()); // 执行所有等待的请求
+      await Promise.all(this.pendingRequests.map(callback => callback())); // 执行所有等待的请求
       this.pendingRequests = [];
     } finally {
       this.refreshing = false;
@@ -43,19 +44,23 @@ class KeyManager {
     type: 'encryption' | 'signature',
     version: string
   ): Promise<CryptoKey> {
-    const response = await fetch(`/api/keys/${type}?version=${version}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${type} key: ${response.statusText}`);
+    try {
+      const keyBase64 = await fetchKey(type, version); // 从 API 获取密钥
+      return await this.importKey(keyBase64, type);
+    } catch (error: unknown) {
+      // 错误处理：检查 error 类型并抛出详细错误
+      handleError(() => {
+        throw new Error(`Failed to fetch ${type} key: ${(error as Error).message}`);
+      }, 'Key Fetch Error');
+      throw new Error('Key fetch failed');
     }
-    const keyBase64 = await response.text();
-    return await this.importKey(keyBase64, type); // 解析密钥
   }
 
   private static async importKey(
     base64: string,
     type: 'encryption' | 'signature'
   ): Promise<CryptoKey> {
-    const keyArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0)); // 将 Base64 解码为字节数组
+    const keyArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
     const cryptoKey = await crypto.subtle.importKey(
       'raw',
       keyArray,

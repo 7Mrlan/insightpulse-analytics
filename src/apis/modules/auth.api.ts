@@ -1,4 +1,4 @@
-// src/apis/auth.ts
+// src/apis/modules/user/auth.ts
 import request from '@/utils/request';
 
 import { http, HttpResponse } from 'msw';

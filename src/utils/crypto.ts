@@ -56,9 +56,12 @@ export async function encryptToken(data: string): Promise<string> {
     buffer.set(iv);
     buffer.set(new Uint8Array(encrypted), iv.length);
     KeyManager.clearSensitiveData(new Uint8Array(encrypted)); // 使用 KeyManager 清除加密后的数据
-    return btoa(String.fromCharCode(...buffer)); // 返回 Base64 编码的加密数据
-  } catch (error) {
-    throw new CryptoError('加密失败，请检查输入数据或联系支持团队');
+    return Buffer.from(buffer).toString('base64'); // 使用 Buffer 编码为 Base64
+  } catch (error: unknown) {
+    handleError(() => {
+      throw new CryptoError('加密失败，请检查输入数据或联系支持团队');
+    }, 'Encryption Error');
+    throw new CryptoError('加密失败');
   }
 }
 
@@ -75,9 +78,12 @@ export async function decryptToken(encryptedData: string): Promise<string> {
     const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext); // 解密数据
 
     KeyManager.clearSensitiveData(new Uint8Array(ciphertext)); // 使用 KeyManager 清除解密后的密文
-    return decodeText(decrypted); // 返回解密后的文本
-  } catch (error) {
-    throw new CryptoError('解密失败，请检查输入数据或联系支持团队');
+    return decodeText(new Uint8Array(decrypted)); // 返回解密后的文本
+  } catch (error: unknown) {
+    handleError(() => {
+      throw new CryptoError('解密失败，请检查输入数据或联系支持团队');
+    }, 'Decryption Error');
+    throw new CryptoError('解密失败');
   }
 }
 
@@ -102,7 +108,10 @@ export async function generateSecureSignature(config: SecureSignatureConfig): Pr
     const signature = await crypto.subtle.sign('HMAC', key, encodeText(message)); // 生成签名
     const result = new Uint8Array(signature);
     return result.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), ''); // 返回十六进制签名
-  } catch (error) {
-    throw new CryptoError('签名生成失败，请检查输入数据或联系支持团队');
+  } catch (error: unknown) {
+    handleError(() => {
+      throw new CryptoError('签名生成失败，请检查输入数据或联系支持团队');
+    }, 'Signature Generation Error');
+    throw new CryptoError('签名生成失败');
   }
 }
