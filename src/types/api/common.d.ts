@@ -12,4 +12,11 @@ declare namespace Api.Common {
     page?: number;
     pageSize?: number;
   }
+
+  /** 密钥数据类型 */
+  interface KeyData {
+    masterKey: string;
+    salt: string;
+  }
 }
+
