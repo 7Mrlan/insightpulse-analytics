@@ -6,6 +6,7 @@
 - [路由文档](/routing)
 - [状态管理文档](/state-management)
 - [API 文档](/api)
+- [加密](/crypto)
 
 更多内容会陆续更新……
 
