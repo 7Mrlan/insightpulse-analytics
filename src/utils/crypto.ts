@@ -93,6 +93,10 @@ export async function decryptDataWithAES(encryptedData: string): Promise<string>
 export async function generateSecureSignature(config: SecureSignatureConfig): Promise<string> {
   handleError(() => validateSignatureConfig(config), 'Invalid signature configuration.');
 
+  if (Math.abs(Date.now() - config.timestamp) > 5 * 60 * 1000) {
+    throw new CryptoError('Request expired');
+  }
+
   try {
     const payload = {
       method: config.method?.toUpperCase() || 'GET',
