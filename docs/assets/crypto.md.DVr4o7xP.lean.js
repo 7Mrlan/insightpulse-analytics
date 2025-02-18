@@ -1,0 +1,1 @@
+import{_ as i,c as a,ae as t,o as n}from"./chunks/framework.ptBMh4I2.js";const d=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"crypto.md","filePath":"crypto.md"}'),e={name:"crypto.md"};function l(h,s,p,r,k,o){return n(),a("div",null,s[0]||(s[0]=[t("",63)]))}const E=i(e,[["render",l]]);export{d as __pageData,E as default};
